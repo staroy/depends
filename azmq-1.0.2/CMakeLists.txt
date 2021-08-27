@@ -38,6 +38,8 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/config")
 find_package(Boost 1.54 COMPONENTS system log date_time thread chrono regex random REQUIRED)
 find_package(ZeroMQ 4.0 REQUIRED)
 
+add_definitions(-DBOOST_ERROR_CODE_HEADER_ONLY)
+
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 find_package(Threads REQUIRED)
 
@@ -49,7 +51,7 @@ include_directories(${Boost_INCLUDE_DIRS}
                     ${ZeroMQ_INCLUDE_DIRS}
                     ${PROJECT_SOURCE_DIR})
 
-enable_testing()
+#enable_testing()
 
 macro(add_catch_test name)
     if (TEST_REPORT_FORMAT)
@@ -60,8 +62,8 @@ macro(add_catch_test name)
 endmacro()
 
 if (NOT ZMQ_STATIC)
-   add_subdirectory(test)
-   add_subdirectory(doc)
+#   add_subdirectory(test)
+#   add_subdirectory(doc)
 endif()
 
 install(DIRECTORY ${PROJECT_SOURCE_DIR}/azmq
