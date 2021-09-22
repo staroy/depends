@@ -128,95 +128,95 @@ add_dependencies(msgpack_prj boost_prj)
 set(SODIUM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libsodium-1.0.18)
 set(SODIUM_BUILD_DIR ${CMAKE_BINARY_DIR}/libsodium-1.0.18)
 
-#    set(SODIUM_OPT --enable-opt --enable-shared=no --enable-static=yes)
-if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    set(SODIUM_OPT --enable-opt)
-    set(SODIUM_CFLAGS "-g0 -O3 -fPIC")
-else()
-    set(SODIUM_OPT "")
-    set(SODIUM_CFLAGS="-fPIC")
-endif()
-
-ExternalProject_Add(sodium_prj
-  CONFIGURE_COMMAND cp -R ${SODIUM_DIR} ${CMAKE_BINARY_DIR}
-  BUILD_COMMAND cd ${SODIUM_BUILD_DIR} && ./autogen.sh && ./configure --prefix=${CMAKE_INSTALL_PREFIX} ${SODIUM_OPT} CFLAGS=${SODIUM_CFLAGS} && make ${CMAKE_N_BUILDPROC} && make install
-  INSTALL_COMMAND  ""
-  SOURCE_DIR ${SODIUM_DIR}
-  BINARY_DIR ${SODIUM_DIR}
-)
-
-set(ZMQ_DIR ${CMAKE_CURRENT_SOURCE_DIR}/zeromq-4.3.4)
-set(ZMQ_BUILD_DIR ${CMAKE_BINARY_DIR}/zeromq-4.3.4)
-
-if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
-  set(ZMQ_STATIC ON)
-  set(ZMQ_SHARED ON)
-  set(ZMQ_CFLAGS "-g0 -O3 -fPIC")
-  set(ZMQ_CXXFLAGS "-g0 -O3 -fPIC")
-  set(LIBSODIUM_STATIC OFF)
-else()
-  set(ZMQ_STATIC ON)
-  set(ZMQ_SHARED ON)
-  set(ZMQ_CFLAGS "-g3 -O0 -fPIC")
-  set(ZMQ_CXXFLAGS "-g3 -O0 -fPIC")
-  set(LIBSODIUM_STATIC OFF)
-endif()
-
-ExternalProject_Add(zeromq_prj
-  CONFIGURE_COMMAND mkdir -p ${ZMQ_BUILD_DIR} && cd ${ZMQ_BUILD_DIR} && cmake -DZMQ_BUILD_TESTS=OFF -DWITH_LIBSODIUM=ON -DWITH_LIBSODIUM_STATIC=${LIBSODIUM_STATIC} -DENABLE_CURVE=ON -DBUILD_STATIC=${ZMQ_STATIC} -DBUILD_SHARED=${ZMQ_SHARED} -DCMAKE_C_FLAGS=${ZMQ_CFLAGS} -DCMAKE_CXX_FLAGS=${ZMQ_CXXFLAGS} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/lib/pkgconfig -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${ZMQ_DIR}
-  BUILD_COMMAND cd ${ZMQ_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} install
-  INSTALL_COMMAND  ""
-  SOURCE_DIR ${ZMQ_DIR}
-  BINARY_DIR ${ZMQ_DIR}
-)
-
-add_dependencies(zeromq_prj sodium_prj)
-
-set(CPPZMQ_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cppzmq-4.7.1)
-set(CPPZMQ_BUILD_DIR ${CMAKE_BINARY_DIR}/cppzmq-4.7.1)
-
-if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    set(CPPZMQ_CXXFLAGS "-g0 -O3 -fPIC")
-else()
-    set(CPPZMQ_CXXFLAGS "-g3 -O0 -fPIC")
-endif()
-
-ExternalProject_Add(cppzmq_prj
-  CONFIGURE_COMMAND mkdir -p ${CPPZMQ_BUILD_DIR} && cd ${CPPZMQ_BUILD_DIR} && cmake -DCMAKE_CXX_FLAGS=${CPPZMQ_CXXFLAGS} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/lib/pkgconfig -DCPPZMQ_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${CPPZMQ_DIR}
-  BUILD_COMMAND cd ${CPPZMQ_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} && make install
-  INSTALL_COMMAND ""
-  SOURCE_DIR ${CPPZMQ_DIR}
-  BINARY_DIR ${CPPZMQ_DIR}
-)
-
-add_dependencies(cppzmq_prj zeromq_prj)
-
-set(CZMQ_DIR ${CMAKE_SOURCE_DIR}/czmq-4.2.1)
-set(CZMQ_BUILD_DIR ${CMAKE_BINARY_DIR}/czmq-4.2.1)
-
-if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    set(CZMQ_FLAGS "-g0 -O3 -fPIC -I${CMAKE_INSTALL_PREFIX}/include")
-    set(CZMQ_STATIC ON)
-    set(CZMQ_SHARED ON)
-    #set(CZMQ_LDFLAGS "-lstdc++ -L${CMAKE_INSTALL_PREFIX}/lib -lzmq -lsodium")
-    set(CZMQ_LDFLAGS "")
-else()
-    set(CZMQ_FLAGS "-g3 -O0 -fPIC -I${CMAKE_INSTALL_PREFIX}/include")
-    set(CZMQ_STATIC ON)
-    set(CZMQ_SHARED ON)
-    set(CZMQ_LDFLAGS "")
-endif()
-
-ExternalProject_Add(czmq_prj
-  CONFIGURE_COMMAND mkdir -p ${CZMQ_BUILD_DIR} && cd ${CZMQ_BUILD_DIR} && cmake -DOPTIONAL_LIBRARIES_STATIC=${CZMQ_LDFLAGS} -DCZMQ_BUILD_STATIC=${CZMQ_STATIC} -DCZMQ_BUILD_SHARED=${CZMQ_SHARED} -DCMAKE_C_FLAGS=${CZMQ_FLAGS} -DCMAKE_CXX_FLAGS=${CZMQ_FLAGS} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/lib/pkgconfig -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${CZMQ_DIR}
-  BUILD_COMMAND cd ${CZMQ_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} install
-  INSTALL_COMMAND  ""
-  SOURCE_DIR ${CZMQ_DIR}
-  BINARY_DIR ${CZMQ_DIR}
-)
-
-add_dependencies(czmq_prj zeromq_prj)
-
+##    set(SODIUM_OPT --enable-opt --enable-shared=no --enable-static=yes)
+#if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+#    set(SODIUM_OPT --enable-opt)
+#    set(SODIUM_CFLAGS "-g0 -O3 -fPIC")
+#else()
+#    set(SODIUM_OPT "")
+#    set(SODIUM_CFLAGS="-fPIC")
+#endif()
+#
+#ExternalProject_Add(sodium_prj
+#  CONFIGURE_COMMAND cp -R ${SODIUM_DIR} ${CMAKE_BINARY_DIR}
+#  BUILD_COMMAND cd ${SODIUM_BUILD_DIR} && ./autogen.sh && ./configure --prefix=${CMAKE_INSTALL_PREFIX} ${SODIUM_OPT} CFLAGS=${SODIUM_CFLAGS} && make ${CMAKE_N_BUILDPROC} && make install
+#  INSTALL_COMMAND  ""
+#  SOURCE_DIR ${SODIUM_DIR}
+#  BINARY_DIR ${SODIUM_DIR}
+#)
+#
+#set(ZMQ_DIR ${CMAKE_CURRENT_SOURCE_DIR}/zeromq-4.3.4)
+#set(ZMQ_BUILD_DIR ${CMAKE_BINARY_DIR}/zeromq-4.3.4)
+#
+#if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+#  set(ZMQ_STATIC ON)
+#  set(ZMQ_SHARED ON)
+#  set(ZMQ_CFLAGS "-g0 -O3 -fPIC")
+#  set(ZMQ_CXXFLAGS "-g0 -O3 -fPIC")
+#  set(LIBSODIUM_STATIC OFF)
+#else()
+#  set(ZMQ_STATIC ON)
+#  set(ZMQ_SHARED ON)
+#  set(ZMQ_CFLAGS "-g3 -O0 -fPIC")
+#  set(ZMQ_CXXFLAGS "-g3 -O0 -fPIC")
+#  set(LIBSODIUM_STATIC OFF)
+#endif()
+#
+#ExternalProject_Add(zeromq_prj
+#  CONFIGURE_COMMAND mkdir -p ${ZMQ_BUILD_DIR} && cd ${ZMQ_BUILD_DIR} && cmake -DZMQ_BUILD_TESTS=OFF -DWITH_LIBSODIUM=ON -DWITH_LIBSODIUM_STATIC=${LIBSODIUM_STATIC} -DENABLE_CURVE=ON -DBUILD_STATIC=${ZMQ_STATIC} -DBUILD_SHARED=${ZMQ_SHARED} -DCMAKE_C_FLAGS=${ZMQ_CFLAGS} -DCMAKE_CXX_FLAGS=${ZMQ_CXXFLAGS} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/lib/pkgconfig -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${ZMQ_DIR}
+#  BUILD_COMMAND cd ${ZMQ_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} install
+#  INSTALL_COMMAND  ""
+#  SOURCE_DIR ${ZMQ_DIR}
+#  BINARY_DIR ${ZMQ_DIR}
+#)
+#
+#add_dependencies(zeromq_prj sodium_prj)
+#
+#set(CPPZMQ_DIR ${CMAKE_CURRENT_SOURCE_DIR}/cppzmq-4.7.1)
+#set(CPPZMQ_BUILD_DIR ${CMAKE_BINARY_DIR}/cppzmq-4.7.1)
+#
+#if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+#    set(CPPZMQ_CXXFLAGS "-g0 -O3 -fPIC")
+#else()
+#    set(CPPZMQ_CXXFLAGS "-g3 -O0 -fPIC")
+#endif()
+#
+#ExternalProject_Add(cppzmq_prj
+#  CONFIGURE_COMMAND mkdir -p ${CPPZMQ_BUILD_DIR} && cd ${CPPZMQ_BUILD_DIR} && cmake -DCMAKE_CXX_FLAGS=${CPPZMQ_CXXFLAGS} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/lib/pkgconfig -DCPPZMQ_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${CPPZMQ_DIR}
+#  BUILD_COMMAND cd ${CPPZMQ_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} && make install
+#  INSTALL_COMMAND ""
+#  SOURCE_DIR ${CPPZMQ_DIR}
+#  BINARY_DIR ${CPPZMQ_DIR}
+#)
+#
+#add_dependencies(cppzmq_prj zeromq_prj)
+#
+#set(CZMQ_DIR ${CMAKE_SOURCE_DIR}/czmq-4.2.1)
+#set(CZMQ_BUILD_DIR ${CMAKE_BINARY_DIR}/czmq-4.2.1)
+#
+#if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+#    set(CZMQ_FLAGS "-g0 -O3 -fPIC -I${CMAKE_INSTALL_PREFIX}/include")
+#    set(CZMQ_STATIC ON)
+#    set(CZMQ_SHARED ON)
+#    #set(CZMQ_LDFLAGS "-lstdc++ -L${CMAKE_INSTALL_PREFIX}/lib -lzmq -lsodium")
+#    set(CZMQ_LDFLAGS "")
+#else()
+#    set(CZMQ_FLAGS "-g3 -O0 -fPIC -I${CMAKE_INSTALL_PREFIX}/include")
+#    set(CZMQ_STATIC ON)
+#    set(CZMQ_SHARED ON)
+#    set(CZMQ_LDFLAGS "")
+#endif()
+#
+#ExternalProject_Add(czmq_prj
+#  CONFIGURE_COMMAND mkdir -p ${CZMQ_BUILD_DIR} && cd ${CZMQ_BUILD_DIR} && cmake -DOPTIONAL_LIBRARIES_STATIC=${CZMQ_LDFLAGS} -DCZMQ_BUILD_STATIC=${CZMQ_STATIC} -DCZMQ_BUILD_SHARED=${CZMQ_SHARED} -DCMAKE_C_FLAGS=${CZMQ_FLAGS} -DCMAKE_CXX_FLAGS=${CZMQ_FLAGS} -DCMAKE_PREFIX_PATH=${CMAKE_INSTALL_PREFIX}/lib/pkgconfig -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${CZMQ_DIR}
+#  BUILD_COMMAND cd ${CZMQ_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} install
+#  INSTALL_COMMAND  ""
+#  SOURCE_DIR ${CZMQ_DIR}
+#  BINARY_DIR ${CZMQ_DIR}
+#)
+#
+#add_dependencies(czmq_prj zeromq_prj)
+#
 set(AZMQ_DIR ${CMAKE_SOURCE_DIR}/azmq-1.0.2)
 set(AZMQ_BUILD_DIR ${CMAKE_BINARY_DIR}/azmq-1.0.2)
 
@@ -234,7 +234,8 @@ ExternalProject_Add(azmq_prj
   BINARY_DIR ${AZMQ_DIR}
 )
 
-add_dependencies(azmq_prj zeromq_prj boost_prj)
+#add_dependencies(azmq_prj zeromq_prj boost_prj)
+add_dependencies(azmq_prj boost_prj)
 
 set(ZYRE_DIR ${CMAKE_SOURCE_DIR}/zyre-2.0.1)
 set(ZYRE_BUILD_DIR ${CMAKE_BINARY_DIR}/zyre-2.0.1)
@@ -262,28 +263,28 @@ ExternalProject_Add(zyre_prj
   BINARY_DIR ${ZYRE_DIR}
 )
 
-add_dependencies(zyre_prj czmq_prj)
-
-set(EASYLOGGINPP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/easyloggingpp-9.96.7)
-set(EASYLOGGINPP_BUILD_DIR ${CMAKE_BINARY_DIR}/easyloggingpp-9.96.7)
-
-if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
-    set(EASYLOGGINPP_STATIC ON)
-else()
-    set(EASYLOGGINPP_STATIC OFF)
-endif()
-
-ExternalProject_Add(easylogginpp_prj
-  CONFIGURE_COMMAND mkdir -p ${EASYLOGGINPP_BUILD_DIR} && cd ${EASYLOGGINPP_BUILD_DIR} && cmake -Dbuild_static_lib=${EASYLOGGINPP_STATIC} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${EASYLOGGINPP_DIR}
-  BUILD_COMMAND cd ${EASYLOGGINPP_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} install
-  INSTALL_COMMAND ""
-  SOURCE_DIR ${EASYLOGGINPP_DIR}
-  BINARY_DIR ${EASYLOGGINPP_DIR}
-)
-
+#add_dependencies(zyre_prj czmq_prj)
+#
+#set(EASYLOGGINPP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/easyloggingpp-9.96.7)
+#set(EASYLOGGINPP_BUILD_DIR ${CMAKE_BINARY_DIR}/easyloggingpp-9.96.7)
+#
+#if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+#    set(EASYLOGGINPP_STATIC ON)
+#else()
+#    set(EASYLOGGINPP_STATIC OFF)
+#endif()
+#
+#ExternalProject_Add(easylogginpp_prj
+#  CONFIGURE_COMMAND mkdir -p ${EASYLOGGINPP_BUILD_DIR} && cd ${EASYLOGGINPP_BUILD_DIR} && cmake -Dbuild_static_lib=${EASYLOGGINPP_STATIC} -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} ${EASYLOGGINPP_DIR}
+#  BUILD_COMMAND cd ${EASYLOGGINPP_BUILD_DIR} && make ${CMAKE_N_BUILDPROC} install
+#  INSTALL_COMMAND ""
+#  SOURCE_DIR ${EASYLOGGINPP_DIR}
+#  BINARY_DIR ${EASYLOGGINPP_DIR}
+#)
+#
 set(LEVELDB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/leveldb-1.23)
 set(LEVELDB_BUILD_DIR ${CMAKE_BINARY_DIR}/leveldb-1.23)
-
+#
 if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
     set(LEVELDB_BUILD_SHARED_LIBS OFF)
 else()
@@ -298,7 +299,6 @@ ExternalProject_Add(leveldb_prj
   SOURCE_DIR ${LEVELDB_DIR}
   BINARY_DIR ${LEVELDB_DIR}
 )
-
 
 #if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
 #    set(VMIME_BUILD_STATIC_LIBRARY ON)

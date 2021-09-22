@@ -10,5 +10,5 @@ mkdir -p $TMP_DIR && mkdir -p $BUILD_DIR \
  && cmake $SOURCE_DIR \
  -DCMAKE_BUILD_TYPE=Release \
  -DCMAKE_INSTALL_PREFIX=$OUT_DIR \
- -DCMAKE_N_BUILDPROC=-j3 \
- && make -j3 && make install
+ -DCMAKE_N_BUILDPROC=-j1 \
+ && make -j1 && make install
