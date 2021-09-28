@@ -1,34 +1,34 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.10)
 project(external)
 
 include(ExternalProject)
 
-set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/boost_1_68_0)
-string(TOLOWER "${CMAKE_BUILD_TYPE}" BOOST_BUILD_TYPE)
+#set(BOOST_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/boost_1_68_0)
+#string(TOLOWER "${CMAKE_BUILD_TYPE}" BOOST_BUILD_TYPE)
 
-if("release" STREQUAL ${BOOST_BUILD_TYPE})
-    set(BOOST_LINK "static")
-else()
-    set(BOOST_LINK "shared")
-endif()
+#if("release" STREQUAL ${BOOST_BUILD_TYPE})
+#    set(BOOST_LINK "static")
+#else()
+#    set(BOOST_LINK "shared")
+#endif()
 
-if(WIN32)
- set(BOOST_CXXFLAGS -std=c++11\ -DBOOST_THREAD_USES_CHRONO)
-else()
+#if(WIN32)
+# set(BOOST_CXXFLAGS -std=c++11\ -DBOOST_THREAD_USES_CHRONO)
+#else()
  #if("release" STREQUAL ${BOOST_BUILD_TYPE})
-  set(BOOST_CXXFLAGS -fPIC\ -std=c++11\ -DBOOST_THREAD_USES_CHRONO\ -DBOOST_ERROR_CODE_HEADER_ONLY)
+#  set(BOOST_CXXFLAGS -fPIC\ -std=c++11\ -DBOOST_THREAD_USES_CHRONO\ -DBOOST_ERROR_CODE_HEADER_ONLY)
  #else()
   #set(BOOST_CXXFLAGS -fPIC\ -std=c++11\ -DBOOST_THREAD_USES_CHRONO\ -DBOOST_ERROR_CODE_HEADER_ONLY)
  #endif()
-endif()
+#endif()
 
-ExternalProject_Add(boost_prj
- CONFIGURE_COMMAND cd ${BOOST_ROOT} && ./bootstrap.sh --prefix=${CMAKE_INSTALL_PREFIX} --with-python=no
- BUILD_COMMAND cd ${BOOST_ROOT} && ./b2 ${CMAKE_N_BUILDPROC} link=${BOOST_LINK} variant=${BOOST_BUILD_TYPE} cxxflags=${BOOST_CXXFLAGS} threading=multi install --without-python
- INSTALL_COMMAND ""
- SOURCE_DIR ${BOOST_ROOT}
- BINARY_DIR ${BOOST_ROOT}
-)
+#ExternalProject_Add(boost_prj
+# CONFIGURE_COMMAND cd ${BOOST_ROOT} && ./bootstrap.sh --prefix=${CMAKE_INSTALL_PREFIX} --with-python=no
+# BUILD_COMMAND cd ${BOOST_ROOT} && ./b2 ${CMAKE_N_BUILDPROC} link=${BOOST_LINK} variant=${BOOST_BUILD_TYPE} cxxflags=${BOOST_CXXFLAGS} threading=multi install --without-python
+# INSTALL_COMMAND ""
+# SOURCE_DIR ${BOOST_ROOT}
+# BINARY_DIR ${BOOST_ROOT}
+#)
 
 set(RAPIDJSON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson-1.1.0)
 set(RAPIDJSON_BUILD_DIR ${CMAKE_BINARY_DIR}/rapidjson-1.1.0)
