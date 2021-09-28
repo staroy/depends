@@ -47,7 +47,7 @@ ExternalProject_Add(rapidjson_prj
   BINARY_DIR ${RAPIDJSON_DIR}
 )
 
-add_dependencies(rapidjson_prj boost_prj)
+#add_dependencies(rapidjson_prj boost_prj)
 
 set(WEBSOCKETPP_DIR ${CMAKE_CURRENT_SOURCE_DIR}/websocketpp-0.8.2)
 set(WEBSOCKETPP_BUILD_DIR ${CMAKE_BINARY_DIR}/websocketpp-0.8.2)
@@ -60,7 +60,7 @@ ExternalProject_Add(websocketpp_prj
   BINARY_DIR ${WEBSOCKETPP_DIR}
 )
 
-add_dependencies(websocketpp_prj boost_prj)
+#add_dependencies(websocketpp_prj boost_prj)
 
 set(LUA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lua-5.4.2)
 string(TOLOWER "${CMAKE_SYSTEM_NAME}" LUA_BUILD_PLATFORM)
@@ -123,7 +123,7 @@ ExternalProject_Add(msgpack_prj
   BINARY_DIR ${MSGPACK_DIR}
 )
 
-add_dependencies(msgpack_prj boost_prj)
+#add_dependencies(msgpack_prj boost_prj)
 
 set(SODIUM_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libsodium-1.0.18)
 set(SODIUM_BUILD_DIR ${CMAKE_BINARY_DIR}/libsodium-1.0.18)
@@ -235,7 +235,7 @@ ExternalProject_Add(azmq_prj
 )
 
 #add_dependencies(azmq_prj zeromq_prj boost_prj)
-add_dependencies(azmq_prj boost_prj)
+#add_dependencies(azmq_prj boost_prj)
 
 set(ZYRE_DIR ${CMAKE_SOURCE_DIR}/zyre-2.0.1)
 set(ZYRE_BUILD_DIR ${CMAKE_BINARY_DIR}/zyre-2.0.1)
