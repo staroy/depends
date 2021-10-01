@@ -33,7 +33,7 @@ ExternalProject_Add(boost_prj
 set(RAPIDJSON_DIR ${CMAKE_CURRENT_SOURCE_DIR}/rapidjson-1.1.0)
 set(RAPIDJSON_BUILD_DIR ${CMAKE_BINARY_DIR}/rapidjson-1.1.0)
 
-if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.0)
+if(CMAKE_CXX_COMPILER_VERSION VERSION_GREATER 7.5)
     set(RAPIDJSON_CXX_FLAGS -Wno-error=stringop-overflow\ -Wno-error=implicit-fallthrough\ -Wno-error=class-memaccess\ -I${CMAKE_INSTALL_PREFIX}/include)
 else()
     set(RAPIDJSON_CXX_FLAGS -I${CMAKE_INSTALL_PREFIX}/include)
